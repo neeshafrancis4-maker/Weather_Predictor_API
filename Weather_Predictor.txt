@@ -1,0 +1,40 @@
+import pandas as pd
+from sklearn import tree
+
+data = {
+    'temperature': [22.5, 38.0, 19.0, 31.5, 42.0, 24.0, 16.5, 29.0, 33.5, 20.0],
+    'humidity':    [85.0, 35.0, 92.0, 70.0, 25.0, 88.0, 96.0, 65.0, 55.0, 90.0],
+    'wind_speed':  [12.0, 18.5,  6.0, 10.0, 22.0,  8.5,  4.0, 14.0, 11.0,  7.0],
+    'rain':        [   1,    0,    1,    1,    0,    1,    1,    0,    0,    1]
+}
+d = pd.DataFrame(data)
+
+d_att = d[['temperature', 'humidity', 'wind_speed']]
+d_pass = d['rain']
+
+t = tree.DecisionTreeClassifier(criterion= 'entropy', max_depth=3)
+t = t.fit(d_att, d_pass)
+
+print("--- AI Weather Prediction System ---")
+print("check the limits and enter the valid value:\n")
+
+try:
+    user_temp = float(input("Enter Temperature (between 10-50):  " ))
+    user_humidity = float(input("Enter Humidity (between 20-100):  " ))
+    user_wind_speed = float(input("Enter wind_speed (between 0-40):  " ))
+
+    if not (10 <= user_temp <= 50) or not (20 <= user_humidity <= 100) or not (0 <= user_wind_speed <= 40):
+            print("\n[invalid value]")
+    else:
+        user_input = [[user_temp, user_humidity, user_wind_speed]]
+        prediction = t.predict(user_input)
+
+        print("\n---------------------------------")
+        if prediction[0] == 1:
+                print("Result: Rain Expected! 🌧️")
+        else:
+                print("Result: Clear Weather! ☀️")
+        print("---------------------------------")
+
+except ValueError:
+    print("\n Error! Please Enter Value in Digits/Number")
