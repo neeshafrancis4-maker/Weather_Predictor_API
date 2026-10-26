@@ -33,8 +33,8 @@ class WeatherInput(BaseModel):
 @app.get("/")
 def home():
     return {
-       "Welcome to Weather Prediction API!",
-        "Go to /docs to test it."
+       "message": "Welcome to Weather Prediction API!",
+        "instruction": "Go to /docs to test it."
     }
 
 # Prediction Route
